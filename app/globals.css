@@ -1,0 +1,194 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Enhanced Islamic color scheme with stronger traditional colors */
+:root {
+  --background: #faf8f3; /* Warm manuscript cream */
+  --foreground: #1a4d0f; /* Deep forest green */
+  --card: #ffffff; /* Pure white for cards */
+  --card-foreground: #1a4d0f; /* Deep forest green for card text */
+  --popover: #ffffff; /* Pure white for popovers */
+  --popover-foreground: #1a4d0f; /* Deep forest green for popover text */
+  --primary: #2d7a1f; /* Rich Islamic green */
+  --primary-foreground: #ffffff; /* White text on primary */
+  --secondary: #d4af37; /* Traditional Islamic gold */
+  --secondary-foreground: #1a4d0f; /* Dark green text on gold */
+  --muted: #f0ede5; /* Soft parchment */
+  --muted-foreground: #4a5d3a; /* Muted olive green */
+  --accent: #e8f5e8; /* Very light green accent */
+  --accent-foreground: #1a4d0f; /* Deep forest green for accent text */
+  --destructive: #c53030; /* Traditional red */
+  --destructive-foreground: #ffffff; /* White text on destructive */
+  --border: #d4d4aa; /* Warm beige borders */
+  --input: #ffffff; /* White input fields */
+  --ring: rgba(45, 122, 31, 0.4); /* Rich green focus ring */
+  --chart-1: #2d7a1f; /* Rich Islamic green */
+  --chart-2: #d4af37; /* Traditional gold */
+  --chart-3: #8fbc8f; /* Sage green */
+  --chart-4: #f0ede5; /* Soft parchment */
+  --chart-5: #4a5d3a; /* Muted olive */
+  --radius: 0.5rem;
+  --sidebar: #f8f6f0; /* Warm off-white sidebar */
+  --sidebar-foreground: #1a4d0f; /* Deep forest green */
+  --sidebar-primary: #2d7a1f; /* Rich Islamic green */
+  --sidebar-primary-foreground: #ffffff; /* White text */
+  --sidebar-accent: #e8f5e8; /* Light green accent */
+  --sidebar-accent-foreground: #1a4d0f; /* Deep forest green */
+  --sidebar-border: #d4d4aa; /* Warm beige borders */
+  --sidebar-ring: rgba(45, 122, 31, 0.3); /* Subtle green ring */
+}
+
+.dark {
+  --background: #0a1a0a; /* Deep Islamic night green */
+  --foreground: #f0f8f0; /* Soft mint white */
+  --card: #1a2e1a; /* Dark forest card background */
+  --card-foreground: #f0f8f0; /* Soft mint white for cards */
+  --popover: #1a2e1a; /* Dark forest popover */
+  --popover-foreground: #f0f8f0; /* Soft mint white for popovers */
+  --primary: #4ade80; /* Bright Islamic green */
+  --primary-foreground: #0a1a0a; /* Deep night green text */
+  --secondary: #fbbf24; /* Bright golden amber */
+  --secondary-foreground: #0a1a0a; /* Deep night green text */
+  --muted: #2d4a2d; /* Dark olive muted */
+  --muted-foreground: #a3b8a3; /* Light sage text */
+  --accent: #1f3a1f; /* Dark green accent */
+  --accent-foreground: #f0f8f0; /* Soft mint white */
+  --destructive: #f87171; /* Soft red for dark mode */
+  --destructive-foreground: #0a1a0a; /* Deep night green text */
+  --border: #2d4a2d; /* Dark olive borders */
+  --input: #1a2e1a; /* Dark forest inputs */
+  --ring: rgba(74, 222, 128, 0.4); /* Bright green focus ring */
+  --chart-1: #4ade80; /* Bright Islamic green */
+  --chart-2: #fbbf24; /* Bright golden amber */
+  --chart-3: #6ee7b7; /* Soft emerald */
+  --chart-4: #2d4a2d; /* Dark olive */
+  --chart-5: #1f3a1f; /* Dark green */
+  --sidebar: #0f1f0f; /* Very dark green sidebar */
+  --sidebar-foreground: #f0f8f0; /* Soft mint white */
+  --sidebar-primary: #4ade80; /* Bright Islamic green */
+  --sidebar-primary-foreground: #0a1a0a; /* Deep night green */
+  --sidebar-accent: #1f3a1f; /* Dark green accent */
+  --sidebar-accent-foreground: #f0f8f0; /* Soft mint white */
+  --sidebar-border: #2d4a2d; /* Dark olive borders */
+  --sidebar-ring: rgba(74, 222, 128, 0.3); /* Bright green ring */
+}
+
+/* Added Islamic fonts - Amiri for headings and Inter for body text */
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-amiri);
+  --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Enhanced Islamic typography and visual elements */
+  .font-islamic {
+    font-family: var(--font-serif);
+  }
+
+  .islamic-heading {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  /* Fixed islamic-pattern opacity to be more subtle but not invisible */
+  .islamic-pattern {
+    background-image: radial-gradient(circle at 1px 1px, var(--color-primary) 1px, transparent 0);
+    background-size: 20px 20px;
+    opacity: 0.02;
+    position: relative;
+  }
+
+  /* Added overlay to ensure content is always readable */
+  .islamic-pattern::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-background);
+    opacity: 0.95;
+    pointer-events: none;
+  }
+
+  .arabic-text {
+    direction: rtl;
+    text-align: right;
+    font-family: var(--font-serif);
+    line-height: 1.8;
+  }
+
+  /* Enhanced islamic-card with better contrast and visibility */
+  .islamic-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 16px rgba(45, 122, 31, 0.15);
+    position: relative;
+    z-index: 10;
+  }
+
+  .islamic-button {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .islamic-button:hover {
+    background: var(--color-secondary);
+    color: var(--color-secondary-foreground);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(45, 122, 31, 0.2);
+  }
+}
