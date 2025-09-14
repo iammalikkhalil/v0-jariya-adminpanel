@@ -60,7 +60,7 @@ export function TagMappingTable({ tagMaps, onTagMapChanged }: TagMappingTablePro
   const filteredTagMaps = tagMaps.filter(
     (tagMap) =>
       tagMap.tag?.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tagMap.zikr?.textArabic.includes(searchTerm) ||
+      tagMap.zikr?.textAr.includes(searchTerm) ||
       tagMap.zikr?.titleEn?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
@@ -141,7 +141,7 @@ export function TagMappingTable({ tagMaps, onTagMapChanged }: TagMappingTablePro
                   <TableCell>
                     <div className="max-w-xs">
                       <div className="font-islamic text-sm text-right mb-1" dir="rtl">
-                        {tagMap.zikr?.textArabic}
+                        {tagMap.zikr?.textAr}
                       </div>
                       {tagMap.zikr?.titleEn && (
                         <div className="text-xs text-muted-foreground">{tagMap.zikr.titleEn}</div>
@@ -224,7 +224,7 @@ export function TagMappingTable({ tagMaps, onTagMapChanged }: TagMappingTablePro
                     <SelectItem key={zikr.id} value={zikr.id}>
                       <div className="flex items-center gap-2">
                         <span className="font-islamic text-right" dir="rtl">
-                          {zikr.textArabic.slice(0, 50)}...
+                          {zikr.textAr.slice(0, 50)}...
                         </span>
                         {zikr.titleEn && <span className="text-muted-foreground">({zikr.titleEn})</span>}
                       </div>

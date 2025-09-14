@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-const API_BASE_URL = "https://api.jariya.net/api"
+const API_BASE_URL = "http://192.168.0.103:8084/api"
 
 export async function GET(request: NextRequest, { params }: { params: { path: string[] } }) {
   try {
@@ -37,7 +37,10 @@ export async function POST(request: NextRequest, { params }: { params: { path: s
     const url = `${API_BASE_URL}/${path}`
     const body = await request.json()
 
-    console.log("[v0] Proxy POST request:", { path, url, hasBody: !!body })
+    console.log("[v0] Proxy POST request:", { path, url, hasBody: !!body, body })
+
+
+
 
     const response = await fetch(url, {
       method: "POST",

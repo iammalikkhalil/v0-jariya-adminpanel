@@ -1,19 +1,14 @@
 "use client"
 
-import { useState } from "react"
 import { AuthGuard } from "@/components/auth-guard"
 import { AdminLayout } from "@/components/admin-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Award, Star, Plus } from "lucide-react"
+import { Award, Star, Plus, ArrowRight } from "lucide-react"
+import Link from "next/link"
 
 export default function RewardsQualitiesPage() {
-  const [selectedZikr, setSelectedZikr] = useState("")
-
   return (
     <AuthGuard>
       <AdminLayout>
@@ -23,160 +18,156 @@ export default function RewardsQualitiesPage() {
             <p className="text-muted-foreground">Manage spiritual rewards and qualities associated with zikrs</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Zikr Selection */}
-            <Card className="lg:col-span-1">
-              <CardHeader>
-                <CardTitle className="font-islamic">Select Zikr</CardTitle>
-                <CardDescription>Choose a zikr to manage its rewards and qualities</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="zikr-select">Zikr</Label>
-                    <Select value={selectedZikr} onValueChange={setSelectedZikr}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Choose a zikr" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-islamic text-right" dir="rtl">
-                              سُبْحَانَ اللَّهِ وَبِحَمْدِهِ
-                            </span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="2">
-                          <div className="flex items-center gap-2">
-                            <span className="font-islamic text-right" dir="rtl">
-                              لَا إِلَهَ إِلَّا اللَّهُ
-                            </span>
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="3">
-                          <div className="flex items-center gap-2">
-                            <span className="font-islamic text-right" dir="rtl">
-                              اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ
-                            </span>
-                          </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+          <Tabs defaultValue="rewards" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="rewards">Zikr Rewards</TabsTrigger>
+              <TabsTrigger value="qualities">Zikr Qualities</TabsTrigger>
+            </TabsList>
 
-                  {selectedZikr && (
-                    <div className="p-4 bg-accent rounded-lg">
-                      <div className="font-islamic text-right mb-2" dir="rtl">
-                        سُبْحَانَ اللَّهِ وَبِحَمْدِهِ
-                      </div>
-                      <div className="text-sm text-muted-foreground">Glory be to Allah and praise be to Him</div>
+            <TabsContent value="rewards" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="font-islamic flex items-center gap-2">
+                        <Award className="h-5 w-5 text-secondary" />
+                        Zikr Rewards
+                      </CardTitle>
+                      <CardDescription>
+                        Manage spiritual rewards and benefits associated with zikrs
+                      </CardDescription>
                     </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Rewards & Qualities Management */}
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle className="font-islamic">Manage Rewards & Qualities</CardTitle>
-                <CardDescription>Add and manage spiritual benefits</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {selectedZikr ? (
-                  <Tabs defaultValue="rewards" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2">
-                      <TabsTrigger value="rewards">Rewards</TabsTrigger>
-                      <TabsTrigger value="qualities">Qualities</TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="rewards" className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-medium">Spiritual Rewards</h3>
-                        <Button size="sm">
+                    <Link href="/admin/rewards-qualities/rewards">
+                      <Button>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Manage Rewards
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Award className="h-4 w-4 text-secondary" />
+                        <h3 className="font-medium">Add New Reward</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        Create spiritual rewards for zikrs
+                      </p>
+                      <Link href="/admin/rewards-qualities/rewards/add">
+                        <Button size="sm" className="w-full">
                           <Plus className="h-4 w-4 mr-2" />
                           Add Reward
                         </Button>
-                      </div>
+                      </Link>
+                    </div>
 
-                      <div className="space-y-3">
-                        {[
-                          "Paradise tree planted for each recitation",
-                          "Sins forgiven with sincere recitation",
-                          "Protection from evil and harm",
-                        ].map((reward, index) => (
-                          <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                            <div className="flex items-center gap-3">
-                              <Award className="h-4 w-4 text-secondary" />
-                              <span>{reward}</span>
-                            </div>
-                            <Button variant="outline" size="sm">
-                              Edit
-                            </Button>
-                          </div>
-                        ))}
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Award className="h-4 w-4 text-primary" />
+                        <h3 className="font-medium">View All Rewards</h3>
                       </div>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        Browse and manage existing rewards
+                      </p>
+                      <Link href="/admin/rewards-qualities/rewards">
+                        <Button size="sm" variant="outline" className="w-full">
+                          View Rewards
+                        </Button>
+                      </Link>
+                    </div>
 
-                      <div className="space-y-4 pt-4 border-t">
-                        <h4 className="font-medium">Add New Reward</h4>
-                        <div className="space-y-2">
-                          <Label htmlFor="reward-text">Reward Description</Label>
-                          <Textarea id="reward-text" placeholder="Enter the spiritual reward or benefit" rows={3} />
-                        </div>
-                        <Button>Add Reward</Button>
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Award className="h-4 w-4 text-muted-foreground" />
+                        <h3 className="font-medium">Quick Stats</h3>
                       </div>
-                    </TabsContent>
+                      <p className="text-sm text-muted-foreground">
+                        Track reward management activity
+                      </p>
+                      <div className="mt-2 text-xs text-muted-foreground">
+                        Coming soon...
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
-                    <TabsContent value="qualities" className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-medium">Spiritual Qualities</h3>
-                        <Button size="sm">
+            <TabsContent value="qualities" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="font-islamic flex items-center gap-2">
+                        <Star className="h-5 w-5 text-primary" />
+                        Zikr Qualities
+                      </CardTitle>
+                      <CardDescription>
+                        Manage spiritual qualities and characteristics of zikrs
+                      </CardDescription>
+                    </div>
+                    <Link href="/admin/rewards-qualities/qualities">
+                      <Button>
+                        <Plus className="h-4 w-4 mr-2" />
+                        Manage Qualities
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Star className="h-4 w-4 text-primary" />
+                        <h3 className="font-medium">Add New Quality</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        Create spiritual qualities for zikrs
+                      </p>
+                      <Link href="/admin/rewards-qualities/qualities/add">
+                        <Button size="sm" className="w-full">
                           <Plus className="h-4 w-4 mr-2" />
                           Add Quality
                         </Button>
-                      </div>
+                      </Link>
+                    </div>
 
-                      <div className="space-y-3">
-                        {[
-                          "Increases faith and devotion",
-                          "Brings peace to the heart",
-                          "Strengthens connection with Allah",
-                        ].map((quality, index) => (
-                          <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                            <div className="flex items-center gap-3">
-                              <Star className="h-4 w-4 text-primary" />
-                              <span>{quality}</span>
-                            </div>
-                            <Button variant="outline" size="sm">
-                              Edit
-                            </Button>
-                          </div>
-                        ))}
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Star className="h-4 w-4 text-secondary" />
+                        <h3 className="font-medium">View All Qualities</h3>
                       </div>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        Browse and manage existing qualities
+                      </p>
+                      <Link href="/admin/rewards-qualities/qualities">
+                        <Button size="sm" variant="outline" className="w-full">
+                          View Qualities
+                        </Button>
+                      </Link>
+                    </div>
 
-                      <div className="space-y-4 pt-4 border-t">
-                        <h4 className="font-medium">Add New Quality</h4>
-                        <div className="space-y-2">
-                          <Label htmlFor="quality-text">Quality Description</Label>
-                          <Textarea
-                            id="quality-text"
-                            placeholder="Enter the spiritual quality or characteristic"
-                            rows={3}
-                          />
-                        </div>
-                        <Button>Add Quality</Button>
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Star className="h-4 w-4 text-muted-foreground" />
+                        <h3 className="font-medium">Quick Stats</h3>
                       </div>
-                    </TabsContent>
-                  </Tabs>
-                ) : (
-                  <div className="text-center py-12 text-muted-foreground">
-                    <Award className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>Select a zikr to manage its rewards and qualities</p>
+                      <p className="text-sm text-muted-foreground">
+                        Track quality management activity
+                      </p>
+                      <div className="mt-2 text-xs text-muted-foreground">
+                        Coming soon...
+                      </div>
+                    </div>
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </AdminLayout>
     </AuthGuard>

@@ -27,7 +27,7 @@ export function HadithForm({ hadith, mode }: HadithFormProps) {
 
   const [formData, setFormData] = useState<CreateHadithRequest>({
     zikrId: hadith?.zikrId || "defaultZikrId", // Updated default value to be a non-empty string
-    textArabic: hadith?.textArabic || "",
+    textAr: hadith?.textAr || "",
     reference: hadith?.reference || "",
   })
 
@@ -96,7 +96,7 @@ export function HadithForm({ hadith, mode }: HadithFormProps) {
                   <SelectItem key={zikr.id} value={zikr.id}>
                     <div className="flex items-center gap-2">
                       <span className="font-islamic text-right" dir="rtl">
-                        {zikr.textArabic.slice(0, 50)}...
+                        {zikr.textAr.slice(0, 50)}...
                       </span>
                       {zikr.titleEn && <span className="text-muted-foreground">({zikr.titleEn})</span>}
                     </div>
@@ -108,13 +108,13 @@ export function HadithForm({ hadith, mode }: HadithFormProps) {
 
           {/* Arabic Text - Required */}
           <div className="space-y-2">
-            <Label htmlFor="textArabic" className="text-sm font-medium">
+            <Label htmlFor="textAr" className="text-sm font-medium">
               Arabic Text <span className="text-destructive">*</span>
             </Label>
             <Textarea
-              id="textArabic"
-              value={formData.textArabic}
-              onChange={(e) => handleInputChange("textArabic", e.target.value)}
+              id="textAr"
+              value={formData.textAr}
+              onChange={(e) => handleInputChange("textAr", e.target.value)}
               placeholder="Enter the Arabic text of the hadith"
               className="font-islamic text-right"
               dir="rtl"
@@ -139,7 +139,7 @@ export function HadithForm({ hadith, mode }: HadithFormProps) {
 
           {/* Actions */}
           <div className="flex gap-4 pt-4">
-            <Button type="submit" disabled={isLoading || !formData.textArabic.trim() || !formData.reference.trim()}>
+            <Button type="submit" disabled={isLoading || !formData.textAr.trim() || !formData.reference.trim()}>
               {isLoading ? "Saving..." : mode === "create" ? "Create Hadith" : "Update Hadith"}
             </Button>
             <Button type="button" variant="outline" onClick={() => router.push("/admin/hadiths")} disabled={isLoading}>

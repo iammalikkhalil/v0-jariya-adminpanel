@@ -31,9 +31,9 @@ export function HadithTable({ hadiths, onHadithDeleted }: HadithTableProps) {
 
   const filteredHadiths = hadiths.filter(
     (hadith) =>
-      hadith.textArabic.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      hadith.textAr.toLowerCase().includes(searchTerm.toLowerCase()) ||
       hadith.reference.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      hadith.zikr?.textArabic.includes(searchTerm) ||
+      hadith.zikr?.textAr.includes(searchTerm) ||
       hadith.zikr?.titleEn?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
@@ -93,7 +93,7 @@ export function HadithTable({ hadiths, onHadithDeleted }: HadithTableProps) {
                   <TableCell className="font-mono text-xs">{hadith.id.slice(0, 8)}</TableCell>
                   <TableCell>
                     <div className="font-islamic text-right max-w-xs truncate" dir="rtl">
-                      {hadith.textArabic}
+                      {hadith.textAr}
                     </div>
                   </TableCell>
                   <TableCell>
@@ -103,7 +103,7 @@ export function HadithTable({ hadiths, onHadithDeleted }: HadithTableProps) {
                     {hadith.zikr ? (
                       <div className="max-w-xs">
                         <div className="font-islamic text-sm text-right mb-1" dir="rtl">
-                          {hadith.zikr.textArabic.slice(0, 50)}...
+                          {hadith.zikr.textAr.slice(0, 50)}...
                         </div>
                         {hadith.zikr.titleEn && (
                           <div className="text-xs text-muted-foreground">{hadith.zikr.titleEn}</div>

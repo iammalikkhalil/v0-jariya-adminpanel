@@ -27,7 +27,8 @@ import {
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Edit, Plus, Search, Trash2 } from "lucide-react"
+import { Edit, Plus, Search, Trash2, Eye } from "lucide-react"
+import Link from "next/link"
 import {
   deleteHadithTranslation,
   createHadithTranslation,
@@ -59,21 +60,21 @@ export function HadithTranslationTable({ translations, onTranslationChanged }: H
 
   const [formData, setFormData] = useState<CreateHadithTranslationRequest>({
     hadithId: "",
-    language: "",
+    languageCode: "",
     translation: "",
   })
 
   const filteredTranslations = translations.filter(
     (translation) =>
       translation.translation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      translation.language.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      translation.hadith?.textArabic.includes(searchTerm) ||
+      translation.languageCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      translation.hadith?.textAr.includes(searchTerm) ||
       translation.hadith?.reference?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   const handleAdd = () => {
     setEditingTranslation(null)
-    setFormData({ hadithId: "", language: "", translation: "" })
+    setFormData({ hadithId: "", languageCode: "", translation: "" })
     setIsDialogOpen(true)
   }
 
@@ -81,14 +82,14 @@ export function HadithTranslationTable({ translations, onTranslationChanged }: H
     setEditingTranslation(translation)
     setFormData({
       hadithId: translation.hadithId,
-      language: translation.language,
+      languageCode: translation.languageCode,
       translation: translation.translation,
     })
     setIsDialogOpen(true)
   }
 
   const handleSubmit = async () => {
-    if (!formData.hadithId || !formData.language || !formData.translation.trim()) return
+    if (!formData.hadithId || !formData.languageCode || !formData.translation.trim()) return
 
     setIsLoading(true)
     try {
@@ -128,7 +129,7 @@ export function HadithTranslationTable({ translations, onTranslationChanged }: H
 
   return (
     <div className="space-y-4">
-      {/* Search and Add */}
+      {/* Search */}
       <div className="flex items-center space-x-2">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -139,10 +140,6 @@ export function HadithTranslationTable({ translations, onTranslationChanged }: H
             className="pl-8"
           />
         </div>
-        <Button onClick={handleAdd}>
-          <Plus className="h-4 w-4 mr-2" />
-          Add Translation
-        </Button>
       </div>
 
       {/* Table */}
@@ -163,7 +160,7 @@ export function HadithTranslationTable({ translations, onTranslationChanged }: H
                   <TableCell>
                     <div className="max-w-xs">
                       <div className="font-islamic text-sm text-right mb-1" dir="rtl">
-                        {translation.hadith?.textArabic}
+                        {translation.hadith?.textAr}
                       </div>
                       {translation.hadith?.reference && (
                         <div className="text-xs text-muted-foreground">{translation.hadith.reference}</div>
@@ -171,13 +168,18 @@ export function HadithTranslationTable({ translations, onTranslationChanged }: H
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline">{getLanguageName(translation.language)}</Badge>
+                    <Badge variant="outline">{getLanguageName(translation.languageCode)}</Badge>
                   </TableCell>
                   <TableCell>
                     <div className="max-w-md truncate">{translation.translation}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
+                      <Link href={`/admin/translations/hadith/view/${translation.id}`}>
+                        <Button variant="outline" size="sm" title="View Details">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </Link>
                       <Button variant="outline" size="sm" onClick={() => handleEdit(translation)}>
                         <Edit className="h-4 w-4" />
                       </Button>
@@ -240,10 +242,10 @@ export function HadithTranslationTable({ translations, onTranslationChanged }: H
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="language">Language</Label>
+              <Label htmlFor="languageCode">Language</Label>
               <Select
-                value={formData.language}
-                onValueChange={(value) => setFormData({ ...formData, language: value })}
+                value={formData.languageCode}
+                onValueChange={(value) => setFormData({ ...formData, languageCode: value })}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select language" />
@@ -274,7 +276,7 @@ export function HadithTranslationTable({ translations, onTranslationChanged }: H
             </Button>
             <Button
               onClick={handleSubmit}
-              disabled={isLoading || !formData.hadithId || !formData.language || !formData.translation.trim()}
+              disabled={isLoading || !formData.hadithId || !formData.languageCode || !formData.translation.trim()}
             >
               {isLoading ? "Saving..." : editingTranslation ? "Update" : "Create"}
             </Button>

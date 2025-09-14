@@ -4,6 +4,9 @@ import { useEffect, useState } from "react"
 import { AuthGuard } from "@/components/auth-guard"
 import { AdminLayout } from "@/components/admin-layout"
 import { ZikrTranslationTable } from "@/components/zikr-translation-table"
+import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
+import Link from "next/link"
 import { getAllZikrTranslations, type ZikrTranslation } from "@/lib/api/translation"
 
 export default function ZikrTranslationsPage() {
@@ -73,9 +76,17 @@ export default function ZikrTranslationsPage() {
     <AuthGuard>
       <AdminLayout>
         <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-islamic text-primary mb-2">Zikr Translations</h1>
-            <p className="text-muted-foreground">Manage translations for zikrs</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-islamic text-primary mb-2">Zikr Translations</h1>
+              <p className="text-muted-foreground">Manage translations for zikrs</p>
+            </div>
+            <Link href="/admin/translations/zikr/add">
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Translation
+              </Button>
+            </Link>
           </div>
           <ZikrTranslationTable translations={translations} onTranslationChanged={fetchTranslations} />
         </div>

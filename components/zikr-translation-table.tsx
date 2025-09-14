@@ -27,7 +27,8 @@ import {
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Edit, Plus, Search, Trash2 } from "lucide-react"
+import { Edit, Plus, Search, Trash2, Eye } from "lucide-react"
+import Link from "next/link"
 import {
   deleteZikrTranslation,
   createZikrTranslation,
@@ -62,7 +63,7 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
 
   const [formData, setFormData] = useState<CreateZikrTranslationRequest>({
     zikrId: "",
-    language: "",
+    languageCode: "",
     translation: "",
   })
 
@@ -79,14 +80,14 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
   const filteredTranslations = translations.filter(
     (translation) =>
       translation.translation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      translation.language.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      translation.zikr?.textArabic.includes(searchTerm) ||
+      translation.languageCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      translation.zikr?.textAr.includes(searchTerm) ||
       translation.zikr?.titleEn?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   const handleAdd = () => {
     setEditingTranslation(null)
-    setFormData({ zikrId: "", language: "", translation: "" })
+    setFormData({ zikrId: "", languageCode: "", translation: "" })
     setIsDialogOpen(true)
   }
 
@@ -94,14 +95,14 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
     setEditingTranslation(translation)
     setFormData({
       zikrId: translation.zikrId,
-      language: translation.language,
+      languageCode: translation.languageCode,
       translation: translation.translation,
     })
     setIsDialogOpen(true)
   }
 
   const handleSubmit = async () => {
-    if (!formData.zikrId || !formData.language || !formData.translation.trim()) return
+    if (!formData.zikrId || !formData.languageCode || !formData.translation.trim()) return
 
     setIsLoading(true)
     try {
@@ -141,7 +142,7 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
 
   return (
     <div className="space-y-4">
-      {/* Search and Add */}
+      {/* Search */}
       <div className="flex items-center space-x-2">
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -152,10 +153,6 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
             className="pl-8"
           />
         </div>
-        <Button onClick={handleAdd}>
-          <Plus className="h-4 w-4 mr-2" />
-          Add Translation
-        </Button>
       </div>
 
       {/* Table */}
@@ -176,7 +173,7 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
                   <TableCell>
                     <div className="max-w-xs">
                       <div className="font-islamic text-sm text-right mb-1" dir="rtl">
-                        {translation.zikr?.textArabic}
+                        {translation.zikr?.textAr}
                       </div>
                       {translation.zikr?.titleEn && (
                         <div className="text-xs text-muted-foreground">{translation.zikr.titleEn}</div>
@@ -184,13 +181,18 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline">{getLanguageName(translation.language)}</Badge>
+                    <Badge variant="outline">{getLanguageName(translation.languageCode)}</Badge>
                   </TableCell>
                   <TableCell>
                     <div className="max-w-md truncate">{translation.translation}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
+                      <Link href={`/admin/translations/zikr/view/${translation.id}`}>
+                        <Button variant="outline" size="sm" title="View Details">
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </Link>
                       <Button variant="outline" size="sm" onClick={() => handleEdit(translation)}>
                         <Edit className="h-4 w-4" />
                       </Button>
@@ -254,7 +256,7 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
                     <SelectItem key={zikr.id} value={zikr.id}>
                       <div className="flex items-center gap-2">
                         <span className="font-islamic text-right" dir="rtl">
-                          {zikr.textArabic.slice(0, 50)}...
+                          {zikr.textAr.slice(0, 50)}...
                         </span>
                         {zikr.titleEn && <span className="text-muted-foreground">({zikr.titleEn})</span>}
                       </div>
@@ -264,10 +266,10 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="language">Language</Label>
+              <Label htmlFor="languageCode">Language</Label>
               <Select
-                value={formData.language}
-                onValueChange={(value) => setFormData({ ...formData, language: value })}
+                value={formData.languageCode}
+                onValueChange={(value) => setFormData({ ...formData, languageCode: value })}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select language" />
@@ -298,7 +300,7 @@ export function ZikrTranslationTable({ translations, onTranslationChanged }: Zik
             </Button>
             <Button
               onClick={handleSubmit}
-              disabled={isLoading || !formData.zikrId || !formData.language || !formData.translation.trim()}
+              disabled={isLoading || !formData.zikrId || !formData.languageCode || !formData.translation.trim()}
             >
               {isLoading ? "Saving..." : editingTranslation ? "Update" : "Create"}
             </Button>

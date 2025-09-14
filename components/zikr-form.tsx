@@ -23,18 +23,20 @@ export function ZikrForm({ zikr, mode }: ZikrFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
 
-  const [formData, setFormData] = useState<CreateZikrRequest>({
-    textArabic: zikr?.textArabic || "",
-    titleEn: zikr?.titleEn || "",
-    titleUr: zikr?.titleUr || "",
-    transliteration: zikr?.transliteration || "",
-    quantityNotes: zikr?.quantityNotes || "",
-    sourceNotes: zikr?.sourceNotes || "",
-    isQuran: zikr?.isQuran || false,
-    isHadith: zikr?.isHadith || false,
-    verified: zikr?.verified || false,
-    verifiedByName: zikr?.verifiedByName || "",
-  })
+const [formData, setFormData] = useState<CreateZikrRequest>({
+  textAr: zikr?.textAr || "",
+  titleEn: zikr?.titleEn || "",
+  titleUr: zikr?.titleUr || "",
+  transliteration: zikr?.transliteration || "",
+  quantityNotes: zikr?.quantityNotes || "",
+  sourceNotes: zikr?.sourceNotes || "",
+  charCount: zikr?.charCount ?? 0,
+  isQuran: zikr?.isQuran ?? false,
+  isHadith: zikr?.isHadith ?? false,
+  isVerified: zikr?.isVerified ?? false,
+  verifiedByName: zikr?.verifiedByName || "",
+  verifiedDate: new Date().toISOString(), // ✅ matches Instant
+})
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -56,9 +58,14 @@ export function ZikrForm({ zikr, mode }: ZikrFormProps) {
     }
   }
 
-  const handleInputChange = (field: keyof CreateZikrRequest, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+const handleInputChange = (field: keyof CreateZikrRequest, value: string | boolean) => {
+  setFormData((prev) => {
+    if (field === "charCount") {
+      return { ...prev, charCount: Number(value) }
+    }
+    return { ...prev, [field]: value }
+  })
+}
 
   return (
     <Card className="max-w-2xl mx-auto">
@@ -83,8 +90,8 @@ export function ZikrForm({ zikr, mode }: ZikrFormProps) {
             </Label>
             <Textarea
               id="textArabic"
-              value={formData.textArabic}
-              onChange={(e) => handleInputChange("textArabic", e.target.value)}
+              value={formData.textAr}
+              onChange={(e) => handleInputChange("textAr", e.target.value)}
               placeholder="Enter the Arabic text of the zikr"
               className="font-islamic text-right"
               dir="rtl"
@@ -125,6 +132,22 @@ export function ZikrForm({ zikr, mode }: ZikrFormProps) {
               placeholder="Phonetic transliteration (optional)"
             />
           </div>
+
+           {/* charCount */}
+          <div className="space-y-2">
+            <Label htmlFor="charCount">character Count</Label>
+            <Input
+  id="charCount"
+  type="number"
+  value={formData.charCount}
+  onChange={(e) => handleInputChange("charCount", e.target.value)}
+  placeholder="Character count"
+/>
+
+
+          </div>
+
+          
 
           {/* Notes */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -171,15 +194,15 @@ export function ZikrForm({ zikr, mode }: ZikrFormProps) {
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="verified"
-                checked={formData.verified}
-                onCheckedChange={(checked) => handleInputChange("verified", checked as boolean)}
+                checked={formData.isVerified}
+                onCheckedChange={(checked) => handleInputChange("isVerified", checked as boolean)}
               />
               <Label htmlFor="verified">Verified</Label>
             </div>
           </div>
 
           {/* Verified By Name */}
-          {formData.verified && (
+          {formData.isVerified && (
             <div className="space-y-2">
               <Label htmlFor="verifiedByName">Verified By</Label>
               <Input
@@ -193,7 +216,7 @@ export function ZikrForm({ zikr, mode }: ZikrFormProps) {
 
           {/* Actions */}
           <div className="flex gap-4 pt-4">
-            <Button type="submit" disabled={isLoading || !formData.textArabic.trim()}>
+            <Button type="submit" disabled={isLoading || !formData.textAr.trim()}>
               {isLoading ? "Saving..." : mode === "create" ? "Create Zikr" : "Update Zikr"}
             </Button>
             <Button type="button" variant="outline" onClick={() => router.push("/admin/zikrs")} disabled={isLoading}>

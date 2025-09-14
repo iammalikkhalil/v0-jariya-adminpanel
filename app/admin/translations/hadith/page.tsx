@@ -4,6 +4,9 @@ import { useEffect, useState } from "react"
 import { AuthGuard } from "@/components/auth-guard"
 import { AdminLayout } from "@/components/admin-layout"
 import { HadithTranslationTable } from "@/components/hadith-translation-table"
+import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
+import Link from "next/link"
 import { getAllHadithTranslations, type HadithTranslation } from "@/lib/api/translation"
 
 export default function HadithTranslationsPage() {
@@ -73,9 +76,17 @@ export default function HadithTranslationsPage() {
     <AuthGuard>
       <AdminLayout>
         <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-islamic text-primary mb-2">Hadith Translations</h1>
-            <p className="text-muted-foreground">Manage translations for hadiths</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-islamic text-primary mb-2">Hadith Translations</h1>
+              <p className="text-muted-foreground">Manage translations for hadiths</p>
+            </div>
+            <Link href="/admin/translations/hadith/add">
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Translation
+              </Button>
+            </Link>
           </div>
           <HadithTranslationTable translations={translations} onTranslationChanged={fetchTranslations} />
         </div>

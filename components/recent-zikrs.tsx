@@ -97,7 +97,7 @@ export function RecentZikrs() {
                 <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <p className="text-sm font-medium font-islamic truncate">{zikr.textArabic}</p>
+                    <p className="text-sm font-medium font-islamic truncate">{zikr.textAr}</p>
                     {zikr.verified && <CheckCircle className="h-3 w-3 text-secondary flex-shrink-0" />}
                   </div>
                   {zikr.titleEn && <p className="text-xs text-muted-foreground mb-1">{zikr.titleEn}</p>}

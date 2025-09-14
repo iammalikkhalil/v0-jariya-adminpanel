@@ -1,32 +1,40 @@
 import { apiGet, apiPost } from "../api"
 
 export interface Zikr {
-  id: string
-  textArabic: string
-  titleEn?: string
-  titleUr?: string
-  transliteration?: string
-  quantityNotes?: string
-  sourceNotes?: string
-  isQuran: boolean
-  isHadith: boolean
-  verified: boolean
-  verifiedByName?: string
-  createdAt: string
-  updatedAt: string
+    id: string,
+    textAr: string,
+    titleEn?: string,
+    titleUr?: string,
+    transliteration?: string,
+    quantityNotes?: string,
+    sourceNotes?: string,
+    isQuran: boolean,
+    isHadith: boolean,
+    isVerified: boolean,
+    charCount: number,
+    verifiedByName?: string,
+    verifiedDate?: string,
+    createdAt: string,
+    updatedAt: string,
+    isDeleted: boolean,
+    deletedAt?: string
 }
 
+
+
 export interface CreateZikrRequest {
-  textArabic: string
-  titleEn?: string
-  titleUr?: string
-  transliteration?: string
-  quantityNotes?: string
-  sourceNotes?: string
-  isQuran: boolean
-  isHadith: boolean
-  verified: boolean
-  verifiedByName?: string
+    textAr: string,
+    titleEn?: string,
+    titleUr?: string,
+    transliteration?: string,
+    quantityNotes?: string,
+    sourceNotes?: string,
+    isQuran: boolean,
+    isHadith: boolean,
+    isVerified: boolean,
+    charCount: number,
+    verifiedByName?: string,
+    verifiedDate?: string,
 }
 
 export interface UpdateZikrRequest extends CreateZikrRequest {
@@ -40,19 +48,24 @@ export async function getAllZikrs() {
 
   if (result.success && result.data) {
     const transformedData: Zikr[] = result.data.map((item: any) => ({
-      id: item.id,
-      textArabic: item.textAr || "",
-      titleEn: item.titleEn || undefined,
-      titleUr: item.titleUr || undefined,
-      transliteration: item.transliteration || undefined,
-      quantityNotes: item.quantityNotes || undefined,
-      sourceNotes: item.sourceNotes || undefined,
+      id: item.id || "",
+      textAr: item.textAr || "",
+      titleEn: item.titleEn || "",
+      titleUr: item.titleUr || "",
+      transliteration: item.transliteration || "",
+      quantityNotes: item.quantityNotes || "",
+      sourceNotes: item.sourceNotes || "",
+      charCount: Number(item.charCount) || 0,
       isQuran: item.isQuran || false,
       isHadith: item.isHadith || false,
-      verified: item.isVerified || false,
-      verifiedByName: item.verifiedByName || undefined,
+      isVerified: item.isVerified || false,
+      verifiedByName: item.verifiedByName || "",
+      verifiedDate: item.verifiedDate || "",
       createdAt: item.createdAt || "",
       updatedAt: item.updatedAt || "",
+      isDeleted: item.isDeleted || false,
+      deletedAt: item.deletedAt || "",
+
     }))
 
     console.log("[v0] Get all zikrs result:", {
@@ -85,7 +98,7 @@ export async function getZikrById(id: string) {
   console.log("[v0] Get zikr by ID result:", {
     success: result.success,
     zikrId: result.data?.id,
-    hasArabicText: !!result.data?.textArabic,
+    textAr: !!result.data?.textAr,
     message: result.message,
   })
 
@@ -94,14 +107,14 @@ export async function getZikrById(id: string) {
 
 export async function createZikr(zikr: CreateZikrRequest) {
   console.log("[v0] Creating new zikr:", {
-    hasArabicText: !!zikr.textArabic,
+    hasArabicText: !!zikr.textAr,
     titleEn: zikr.titleEn,
     isQuran: zikr.isQuran,
     isHadith: zikr.isHadith,
-    verified: zikr.verified,
+    verified: zikr.isVerified,
   })
 
-  const result = await apiPost<Zikr>("/zikrs", zikr)
+  const result = await apiPost<Zikr>("/zikr/add", zikr)
 
   console.log("[v0] Create zikr result:", {
     success: result.success,
@@ -115,12 +128,12 @@ export async function createZikr(zikr: CreateZikrRequest) {
 export async function updateZikr(zikr: UpdateZikrRequest) {
   console.log("[v0] Updating zikr:", {
     id: zikr.id,
-    hasArabicText: !!zikr.textArabic,
+    hasArabicText: !!zikr.textAr,
     titleEn: zikr.titleEn,
-    verified: zikr.verified,
+    verified: zikr.isVerified,
   })
 
-  const result = await apiPost<Zikr>("/zikrs/update", zikr)
+  const result = await apiPost<Zikr>("/zikr/update", zikr)
 
   console.log("[v0] Update zikr result:", {
     success: result.success,

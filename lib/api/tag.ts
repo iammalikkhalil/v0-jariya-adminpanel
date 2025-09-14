@@ -34,38 +34,38 @@ export interface CreateTagMapRequest {
 
 // Tag APIs
 export async function getAllTags() {
-  return apiGet<Tag[]>("/tag/getAll")
+  return apiGet<Tag[]>("/zikrTag/getAll")
 }
 
 export async function getTagById(id: string) {
-  return apiPost<Tag>("/tag/getById", { id })
+  return apiPost<Tag>("/zikrTag/getById", { id })
 }
 
 export async function createTag(tag: CreateTagRequest) {
-  return apiPost<Tag>("/tag/add", tag)
+  return apiPost<Tag>("/zikrTag/add", tag)
 }
 
 export async function updateTag(tag: UpdateTagRequest) {
-  return apiPost<Tag>("/tag/update", tag)
+  return apiPost<Tag>("/zikrTag/update", tag)
 }
 
 export async function deleteTag(id: string) {
-  return apiPost("/tag/deleteById", { id })
+  return apiPost("/zikrTag/deleteById", { id })
 }
 
 // Tag Mapping APIs
 export async function getAllTagMaps() {
-  return apiGet<TagMap[]>("/tagMap/getAll")
+  return apiGet<TagMap[]>("/zikrTagMap/getAll")
 }
 
 export async function getTagMapById(id: string) {
-  return apiPost<TagMap>("/tagMap/getById", { id })
+  return apiPost<TagMap>("/zikrTagMap/getById", { id })
 }
 
 export async function createTagMap(tagMap: CreateTagMapRequest) {
-  return apiPost<TagMap>("/tagMap/add", tagMap)
+  return apiPost<TagMap>("/zikrTagMap/add", tagMap)
 }
 
 export async function deleteTagMap(id: string) {
-  return apiPost("/tagMap/deleteById", { id })
+  return apiPost("/zikrTagMap/deleteById", { id })
 }

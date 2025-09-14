@@ -19,7 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Edit, Plus, Search, Trash2, Star } from "lucide-react"
+import { Edit, Plus, Search, Trash2, Star, Eye } from "lucide-react"
 import { getAllCollections, deleteCollection, type Collection } from "@/lib/api/collection"
 
 export default function CollectionsPage() {
@@ -155,20 +155,25 @@ export default function CollectionsPage() {
                         <TableCell>
                           <div className="flex items-center gap-2">
                             <span className="font-medium">{collection.text}</span>
-                            {collection.featured && <Star className="h-4 w-4 text-secondary" />}
+                            {collection.isFeatured && <Star className="h-4 w-4 text-secondary" />}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="max-w-xs truncate">{collection.description || "-"}</div>
                         </TableCell>
                         <TableCell>
-                          <Badge variant={collection.featured ? "default" : "secondary"}>
-                            {collection.featured ? "Featured" : "Regular"}
+                          <Badge variant={collection.isFeatured ? "default" : "secondary"}>
+                            {collection.isFeatured ? "Featured" : "Regular"}
                           </Badge>
                         </TableCell>
-                        <TableCell>{collection.order}</TableCell>
+                        <TableCell>{collection.orderIndex}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
+                            <Link href={`/admin/collections/view/${collection.id}`}>
+                              <Button variant="outline" size="sm">
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            </Link>
                             <Link href={`/admin/collections/edit/${collection.id}`}>
                               <Button variant="outline" size="sm">
                                 <Edit className="h-4 w-4" />

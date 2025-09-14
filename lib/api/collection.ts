@@ -3,21 +3,26 @@ import { apiGet, apiPost } from "../api"
 export interface Collection {
   id: string
   text: string
+  isFeatured: boolean
   description?: string
-  featured: boolean
-  order: number
+  orderIndex: number
   createdAt: string
   updatedAt: string
+  isDeleted: boolean
+  deletedAt?: string
 }
 
 export interface CollectionMap {
   id: string
   collectionId: string
   zikrId: string
-  order: number
-  countType: "Up" | "Down"
+  countType: string
   countValue: number
+  orderIndex: number
   createdAt: string
+  updatedAt: string
+  isDeleted: boolean
+  deletedAt?: string
   collection?: Collection
   zikr?: {
     textArabic: string
@@ -28,8 +33,8 @@ export interface CollectionMap {
 export interface CreateCollectionRequest {
   text: string
   description?: string
-  featured: boolean
-  order: number
+  isFeatured: boolean
+  orderIndex: number
 }
 
 export interface UpdateCollectionRequest extends CreateCollectionRequest {
@@ -39,8 +44,8 @@ export interface UpdateCollectionRequest extends CreateCollectionRequest {
 export interface CreateCollectionMapRequest {
   collectionId: string
   zikrId: string
-  order: number
-  countType: "Up" | "Down"
+  orderIndex: number
+  countType: string
   countValue: number
 }
 
@@ -50,42 +55,69 @@ export interface UpdateCollectionMapRequest extends CreateCollectionMapRequest {
 
 // Collection APIs
 export async function getAllCollections() {
-  return apiGet<Collection[]>("/collection/getAll")
+  return apiGet<Collection[]>("/zikrCollection/getAll")
 }
 
 export async function getCollectionById(id: string) {
-  return apiPost<Collection>("/collection/getById", { id })
+  return apiPost<Collection>("/zikrCollection/getById", { id })
 }
 
 export async function createCollection(collection: CreateCollectionRequest) {
-  return apiPost<Collection>("/collection/add", collection)
+  return apiPost<Collection>("/zikrCollection/add", collection)
 }
 
 export async function updateCollection(collection: UpdateCollectionRequest) {
-  return apiPost<Collection>("/collection/update", collection)
+  return apiPost<Collection>("/zikrCollection/update", collection)
 }
 
 export async function deleteCollection(id: string) {
-  return apiPost("/collection/deleteById", { id })
+  return apiPost("/zikrCollection/deleteById", { id })
 }
 
-// Collection Mapping APIs
+// Collection Map APIs
 export async function getAllCollectionMaps() {
-  return apiGet<CollectionMap[]>("/collectionMap/getAll")
+  console.log("[v0] Fetching all collection maps")
+
+  const result = await apiGet<any[]>("/zikrCollectionMap/getAll")
+
+  if (result.success && result.data) {
+    const transformedData: CollectionMap[] = result.data.map((item: any) => ({
+      id: item.id || "",
+      collectionId: item.collectionId || "",
+      zikrId: item.zikrId || "",
+      countType: item.countType || "Up",
+      countValue: Number(item.countValue) || 0,
+      orderIndex: Number(item.orderIndex) || 0,
+      createdAt: item.createdAt || "",
+      updatedAt: item.updatedAt || "",
+      isDeleted: item.isDeleted || false,
+      deletedAt: item.deletedAt || "",
+    }))
+
+    console.log("[v0] Collection maps data:", transformedData[0])
+    return {
+      success: true,
+      data: transformedData,
+      message: result.message
+    }
+  }
+
+  return result
 }
 
 export async function getCollectionMapById(id: string) {
-  return apiPost<CollectionMap>("/collectionMap/getById", { id })
+  console.log("[v0] Fetching collection map by ID:", id)
+  return apiPost<CollectionMap>("/zikrCollectionMap/getById", { id })
 }
 
 export async function createCollectionMap(collectionMap: CreateCollectionMapRequest) {
-  return apiPost<CollectionMap>("/collectionMap/add", collectionMap)
+  return apiPost<CollectionMap>("/zikrCollectionMap/add", collectionMap)
 }
 
 export async function updateCollectionMap(collectionMap: UpdateCollectionMapRequest) {
-  return apiPost<CollectionMap>("/collectionMap/update", collectionMap)
+  return apiPost<CollectionMap>("/zikrCollectionMap/update", collectionMap)
 }
 
 export async function deleteCollectionMap(id: string) {
-  return apiPost("/collectionMap/deleteById", { id })
+  return apiPost("/zikrCollectionMap/deleteById", { id })
 }

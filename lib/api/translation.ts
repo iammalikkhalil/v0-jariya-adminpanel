@@ -3,38 +3,43 @@ import { apiGet, apiPost } from "../api"
 export interface ZikrTranslation {
   id: string
   zikrId: string
-  language: string
   translation: string
+  languageCode: string
   createdAt: string
   updatedAt: string
+  isDeleted: boolean
+  deletedAt?: string
   zikr?: {
-    textArabic: string
+    textAr: string
     titleEn?: string
+    titleUr?: string
   }
 }
 
 export interface HadithTranslation {
   id: string
   hadithId: string
-  language: string
   translation: string
+  languageCode: string
   createdAt: string
   updatedAt: string
+  isDeleted: boolean
+  deletedAt?: string
   hadith?: {
-    textArabic: string
+    textAr: string
     reference?: string
   }
 }
 
 export interface CreateZikrTranslationRequest {
   zikrId: string
-  language: string
+  languageCode: string
   translation: string
 }
 
 export interface CreateHadithTranslationRequest {
   hadithId: string
-  language: string
+  languageCode: string
   translation: string
 }
 
@@ -69,21 +74,21 @@ export async function deleteZikrTranslation(id: string) {
 
 // Hadith Translation APIs
 export async function getAllHadithTranslations() {
-  return apiGet<HadithTranslation[]>("/hadithTranslation/getAll")
+  return apiGet<HadithTranslation[]>("/zikrHadithTranslation/getAll")
 }
 
 export async function getHadithTranslationById(id: string) {
-  return apiPost<HadithTranslation>("/hadithTranslation/getById", { id })
+  return apiPost<HadithTranslation>("/zikrHadithTranslation/getById", { id })
 }
 
 export async function createHadithTranslation(translation: CreateHadithTranslationRequest) {
-  return apiPost<HadithTranslation>("/hadithTranslation/add", translation)
+  return apiPost<HadithTranslation>("/zikrHadithTranslation/add", translation)
 }
 
 export async function updateHadithTranslation(translation: UpdateHadithTranslationRequest) {
-  return apiPost<HadithTranslation>("/hadithTranslation/update", translation)
+  return apiPost<HadithTranslation>("/zikrHadithTranslation/update", translation)
 }
 
 export async function deleteHadithTranslation(id: string) {
-  return apiPost("/hadithTranslation/deleteById", { id })
+  return apiPost("/zikrHadithTranslation/deleteById", { id })
 }
