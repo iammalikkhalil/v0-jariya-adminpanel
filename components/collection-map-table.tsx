@@ -94,8 +94,8 @@ export function CollectionMapTable({ maps, onMapDeleted, onRefresh, isLoading }:
       </div>
 
       {/* Table */}
-      <div className="border rounded-lg">
-        <Table>
+      <div className="border rounded-lg overflow-x-auto">
+        <Table className="min-w-[800px]">
           <TableHeader>
             <TableRow>
               <TableHead className="w-20">ID</TableHead>
@@ -117,14 +117,26 @@ export function CollectionMapTable({ maps, onMapDeleted, onRefresh, isLoading }:
                       {map.collection?.text || map.collectionId}
                     </div>
                   </TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <div className="font-arabic">{map.zikr?.textAr}</div>
-                      {map.zikr?.titleEn && (
-                        <div className="text-xs text-muted-foreground">{map.zikr.titleEn}</div>
-                      )}
-                    </div>
-                  </TableCell>
+<TableCell>
+  <div className="space-y-1 max-w-[220px]">
+    <div className="font-arabic">
+      {map.zikr?.textAr
+        ? map.zikr.textAr.split(" ").slice(0, 8).join(" ") +
+          (map.zikr.textAr.split(" ").length > 8 ? "…" : "")
+        : "-"}
+    </div>
+    {map.zikr?.titleEn && (
+      <div className="text-xs text-muted-foreground">
+        {map.zikr.titleEn
+          ? map.zikr.titleEn.split(" ").slice(0, 7).join(" ") +
+            (map.zikr.titleEn.split(" ").length > 7 ? "…" : "")
+          : ""}
+      </div>
+    )}
+  </div>
+</TableCell>
+
+
                   <TableCell>
                     <Badge variant={map.countType?.toUpperCase() === "DOWN" ? "destructive" : "default"}>
                       {map.countType || "Up"}
