@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 
-const API_BASE_URL = "http://192.168.0.103:8084/api"
+const API_BASE_URL = "http://api.jariya.net/api"
 
 export async function GET(request: NextRequest, { params }: { params: { path: string[] } }) {
   try {
