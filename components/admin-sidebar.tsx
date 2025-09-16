@@ -75,6 +75,14 @@ const menuItems = [
       { title: "Collection Zikr Mapping", href: "/admin/collections/mapping" },
     ],
   },
+  {
+    title: "Quran",
+    icon: FolderOpen,
+    children: [
+      { title: "All Quran Lines", href: "/admin/quran" },
+      { title: "Add Quran Lines", href: "/admin/quran/add" },
+    ],
+  },
 ]
 
 export function AdminSidebar() {

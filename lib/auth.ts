@@ -9,17 +9,17 @@ export const AUTH_STORAGE_KEY = "jariya_admin"
 export function getStoredAdmin(): Admin | null {
   if (typeof window === "undefined") return null
 
-  console.log("[v0] Getting stored admin from localStorage")
+  // console.log("[v0] Getting stored admin from localStorage")
 
   try {
     const stored = localStorage.getItem(AUTH_STORAGE_KEY)
     const admin = stored ? JSON.parse(stored) : null
 
-    console.log("[v0] Retrieved admin:", {
-      hasStored: !!stored,
-      adminId: admin?.id,
-      adminEmail: admin?.email,
-    })
+    // console.log("[v0] Retrieved admin:", {
+    //   hasStored: !!stored,
+    //   adminId: admin?.id,
+    //   adminEmail: admin?.email,
+    // })
 
     return admin
   } catch (error) {
@@ -52,7 +52,7 @@ export function isAuthenticated(): boolean {
   const admin = getStoredAdmin()
   const authenticated = admin !== null
 
-  console.log("[v0] Authentication check:", { authenticated, adminId: admin?.id })
+  // console.log("[v0] Authentication check:", { authenticated, adminId: admin?.id })
 
   return authenticated
 }
